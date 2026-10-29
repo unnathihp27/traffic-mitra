@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f5ef">
+  <meta name="description" content="Traffic Mitra is an educational road-safety assistant grounded in source documents.">
+  <title>Traffic Mitra | Road-safety assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172f32;
+      --muted: #647777;
+      --line: #d7dfd8;
+      --paper: #fffefa;
+      --canvas: #f2f5ef;
+      --green: #1d6860;
+      --green-dark: #154e49;
+      --lime: #d9e878;
+      --amber: #e7a537;
+      --red: #bd5546;
+      font-family: "DM Sans", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--canvas);
+      background-image: linear-gradient(90deg, transparent 49.9%, #dfe6dc 50%, transparent 50.1%), radial-gradient(#bdc9be 0.65px, transparent 0.65px);
+      background-size: 100% 100%, 19px 19px;
+    }
+    button, textarea { font: inherit; }
+    button:focus-visible, textarea:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(245px, 310px) minmax(0, 1fr);
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--canvas);
+      box-shadow: 0 0 0 1px rgba(23, 47, 50, .06);
+    }
+    .rail {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 28px 22px 22px;
+      color: #f3f5ea;
+      background: #193e3e;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      display: grid;
+      flex: 0 0 44px;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 12px;
+      background: #f8f2df;
+      font-size: 24px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 21px;
+      line-height: 1.15;
+    }
+    .brand p { margin: 4px 0 0; color: #c1d3c8; font-size: 12px; }
+    .rail-label {
+      margin: 0 0 12px;
+      color: #a9c2b5;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .suggestions { display: grid; gap: 8px; }
+    .suggestion {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid rgba(227,239,227,.16);
+      border-radius: 8px;
+      color: #edf4eb;
+      background: rgba(255,255,255,.045);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .suggestion:hover { border-color: #9dc98a; background: rgba(255,255,255,.1); transform: translateX(2px); }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid rgba(227,239,227,.16);
+      border-radius: 8px;
+      color: #d9e5db;
+      font-size: 12px;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(217,232,120,.12); }
+    .rail-foot { margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(227,239,227,.16); color: #b6c8bd; font-size: 12px; line-height: 1.55; }
+    .rail-foot strong { color: #f1f3e7; }
+    .workspace { display: flex; min-width: 0; min-height: 100vh; flex-direction: column; }
+    .topbar {
+      display: flex;
+      min-height: 72px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 32px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,254,250,.84);
+    }
+    .topbar-title { font-family: "Space Grotesk", sans-serif; font-size: 15px; font-weight: 600; }
+    .topbar-note { color: var(--muted); font-size: 12px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid #d5dfd1;
+      border-radius: 999px;
+      color: var(--green-dark);
+      background: #eef4df;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .tag::before { width: 7px; height: 7px; border-radius: 50%; background: var(--green); content: ""; }
+    .conversation {
+      display: flex;
+      width: min(900px, 100%);
+      flex: 1;
+      flex-direction: column;
+      align-self: center;
+      padding: 34px clamp(18px, 5vw, 58px) 20px;
+    }
+    .welcome { max-width: 700px; margin: auto auto 26px; padding: 25px 0; animation: arrive .45s ease both; }
+    .eyebrow { margin: 0 0 12px; color: var(--green); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .welcome h2 { max-width: 650px; margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(29px, 4vw, 43px); line-height: 1.08; }
+    .welcome-copy { max-width: 570px; margin: 14px 0 0; color: #526869; font-size: 15px; line-height: 1.65; }
+    .road-rule { display: flex; align-items: center; gap: 9px; margin-top: 25px; color: #687875; font-size: 11px; }
+    .road-rule::before { width: 32px; border-top: 2px dashed var(--amber); content: ""; }
+    .messages { display: grid; gap: 22px; padding: 6px 0 24px; }
+    .message { display: flex; gap: 12px; animation: arrive .24s ease both; }
+    .message.user { justify-content: flex-end; }
+    .avatar {
+      display: grid;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 9px;
+      color: white;
+      background: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .message.user .avatar { order: 2; color: var(--ink); background: var(--lime); }
+    .bubble { max-width: min(680px, calc(100% - 44px)); padding: 13px 15px; border: 1px solid var(--line); border-radius: 4px 12px 12px 12px; background: var(--paper); line-height: 1.65; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .message.user .bubble { border-color: #c7d9d1; border-radius: 12px 4px 12px 12px; background: #e4eee6; }
+    .sources { margin: 10px 0 0; border-top: 1px solid var(--line); }
+    .sources summary { padding: 10px 0 1px; color: var(--green-dark); font-size: 12px; font-weight: 700; cursor: pointer; }
+    .source-item { margin: 10px 0; padding: 10px 12px; border-left: 3px solid var(--amber); background: #f6f5eb; }
+    .source-meta { margin: 0 0 5px; font-size: 11px; font-weight: 700; }
+    .source-text { margin: 0; color: #536365; font-size: 12px; line-height: 1.55; }
+    .error { color: #8d3026; background: #fff1ed; border-color: #edc2b7; }
+    .composer-wrap { position: sticky; bottom: 0; padding: 12px 0 4px; background: linear-gradient(180deg, rgba(242,245,239,0), var(--canvas) 22%); }
+    .composer {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid #b9c9c1;
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 0 9px 26px rgba(24,56,52,.08);
+    }
+    .composer textarea { width: 100%; min-height: 44px; max-height: 140px; resize: vertical; padding: 11px 10px; border: 0; outline: 0; color: var(--ink); background: transparent; line-height: 1.45; }
+    .composer textarea::placeholder { color: #748582; }
+    .send {
+      display: grid;
+      flex: 0 0 42px;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 0;
+      border-radius: 9px;
+      color: white;
+      background: var(--green);
+      font-size: 20px;
+      cursor: pointer;
+      transition: background .16s ease, transform .16s ease;
+    }
+    .send:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-1px); }
+    .send:disabled { cursor: wait; opacity: .58; }
+    .fineprint { margin: 10px 3px 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .typing { display: inline-flex; gap: 5px; padding: 4px 1px; }
+    .typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse .8s ease-in-out infinite alternate; }
+    .typing i:nth-child(2) { animation-delay: .18s; }
+    .typing i:nth-child(3) { animation-delay: .36s; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { to { opacity: .3; transform: translateY(-3px); } }
+    @media (max-width: 760px) {
+      body { background-image: radial-gradient(#bdc9be 0.65px, transparent 0.65px); }
+      .shell { display: flex; flex-direction: column; }
+      .rail { gap: 13px; padding: 14px 16px; }
+      .brand-mark { flex-basis: 38px; width: 38px; height: 38px; font-size: 21px; }
+      .brand h1 { font-size: 18px; }
+      .brand p { font-size: 11px; }
+      .rail section, .rail-foot { display: none; }
+      .rail .status { align-self: flex-start; padding: 6px 9px; font-size: 10px; }
+      .topbar { min-height: 54px; padding: 10px 16px; }
+      .topbar-note { display: none; }
+      .conversation { min-height: calc(100vh - 112px); padding: 22px 15px 12px; }
+      .welcome { margin-bottom: 15px; padding: 17px 0; }
+      .welcome h2 { font-size: 32px; }
+      .welcome-copy { font-size: 14px; }
+      .messages { gap: 16px; }
+      .bubble { max-width: calc(100% - 42px); padding: 11px 12px; font-size: 14px; }
+      .composer-wrap { padding-bottom: 2px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Traffic Mitra">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">🚦</div>
+        <div><h1>Traffic Mitra</h1><p>Road-safety assistant</p></div>
+      </div>
+      <section>
+        <p class="rail-label">Start with a topic</p>
+        <div class="suggestions">
+          <button class="suggestion" type="button" data-question="What does a triangular traffic sign usually indicate?">Reading traffic signs</button>
+          <button class="suggestion" type="button" data-question="What should I do if I witness a road accident?">Responding to a crash</button>
+          <button class="suggestion" type="button" data-question="Why should I maintain a safe following distance?">Safe following distance</button>
+          <button class="suggestion" type="button" data-question="What should I check before a long journey?">Before a long journey</button>
+        </div>
+      </section>
+      <section>
+        <p class="rail-label">Assistant status</p>
+        <div class="status"><span class="status-dot" aria-hidden="true"></span><span id="status-text">Knowledge sources ready</span></div>
+      </section>
+      <div class="rail-foot"><strong>Educational use only.</strong><br>For current rules, follow local official guidance. Contact emergency services in an emergency.</div>
+    </aside>
+    <main class="workspace">
+      <header class="topbar">
+        <div><div class="topbar-title">Ask Traffic Mitra</div><div class="topbar-note">Answers are grounded in the road-safety guide</div></div>
+        <div class="tag">Source-grounded</div>
+      </header>
+      <section class="conversation" aria-label="Conversation">
+        <div class="welcome" id="welcome">
+          <p class="eyebrow">A clearer view of safer roads</p>
+          <h2>Know the road.<br>Make safer decisions.</h2>
+          <p class="welcome-copy">Ask about signs, safe driving, or what to do in an emergency. Traffic Mitra searches its road-safety sources first and shows the excerpts behind each answer.</p>
+          <div class="road-rule">Practical guidance, with its source attached</div>
+        </div>
+        <div class="messages" id="messages" aria-live="polite"></div>
+        <div class="composer-wrap">
+          <form class="composer" id="question-form">
+            <textarea id="question" rows="1" maxlength="2000" placeholder="Ask a road-safety question..." aria-label="Your question" required></textarea>
+            <button class="send" id="send" type="submit" aria-label="Send question" title="Send question">↑</button>
+          </form>
+          <p class="fineprint">Traffic Mitra is educational, not legal or emergency advice. Avoid sharing personal or sensitive information.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const form = document.querySelector("#question-form");
+    const input = document.querySelector("#question");
+    const send = document.querySelector("#send");
+    const messages = document.querySelector("#messages");
+    const welcome = document.querySelector("#welcome");
+    const statusText = document.querySelector("#status-text");
+
+    function addMessage(role, text, sources = [], error = false) {
+      const row = document.createElement("article");
+      row.className = `message ${role}`;
+      const avatar = document.createElement("div");
+      avatar.className = "avatar";
+      avatar.textContent = role === "user" ? "You" : "TM";
+      const bubble = document.createElement("div");
+      bubble.className = `bubble${error ? " error" : ""}`;
+      bubble.textContent = text;
+      if (sources.length) {
+        const details = document.createElement("details");
+        details.className = "sources";
+        const summary = document.createElement("summary");
+        summary.textContent = `Sources (${sources.length})`;
+        details.append(summary);
+        for (const [index, source] of sources.entries()) {
+          const item = document.createElement("div");
+          item.className = "source-item";
+          const meta = document.createElement("p");
+          meta.className = "source-meta";
+          meta.textContent = `${index + 1}. ${source.source}${source.page ? `, page ${source.page}` : ""} · similarity ${Number(source.score).toFixed(2)}`;
+          const excerpt = document.createElement("p");
+          excerpt.className = "source-text";
+          excerpt.textContent = source.text;
+          item.append(meta, excerpt);
+          details.append(item);
+        }
+        bubble.append(details);
+      }
+      if (role === "user") row.append(bubble, avatar);
+      else row.append(avatar, bubble);
+      messages.append(row);
+      row.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      return row;
+    }
+
+    async function ask(question) {
+      const cleanQuestion = question.trim();
+      if (!cleanQuestion || send.disabled) return;
+      welcome.hidden = true;
+      addMessage("user", cleanQuestion);
+      input.value = "";
+      send.disabled = true;
+      const pending = addMessage("assistant", "");
+      const dots = document.createElement("span");
+      dots.className = "typing";
+      dots.setAttribute("aria-label", "Preparing an answer");
+      dots.innerHTML = "<i></i><i></i><i></i>";
+      pending.querySelector(".bubble").append(dots);
+      try {
+        const response = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: cleanQuestion }),
+        });
+        let payload;
+        try {
+          payload = await response.json();
+        } catch {
+          throw new Error("The assistant service returned an unreadable response. Please try again later.");
+        }
+        pending.remove();
+        if (!response.ok) throw new Error(payload.detail || "The request could not be completed.");
+        addMessage("assistant", payload.answer, payload.sources || []);
+      } catch (error) {
+        pending.remove();
+        addMessage("assistant", error.message || "Connection failed. Please try again.", [], true);
+      } finally {
+        send.disabled = false;
+        input.focus();
+      }
+    }
+
+    fetch("/api/health")
+      .then((response) => {
+        if (!response.ok) throw new Error("unavailable");
+        return response.json();
+      })
+      .then((health) => {
+        statusText.textContent = health.status === "ok" ? "Assistant service ready" : "Assistant service unavailable";
+      })
+      .catch(() => {
+        statusText.textContent = "Assistant service unavailable; try again later";
+      });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      ask(input.value);
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+      }
+    });
+    document.querySelectorAll("[data-question]").forEach((button) => {
+      button.addEventListener("click", () => ask(button.dataset.question));
+    });
+  </script>
+</body>
+</html>

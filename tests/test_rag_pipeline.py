@@ -9,6 +9,7 @@ import pytest
 from rag_pipeline import (
     INSUFFICIENT_CONTEXT,
     GeminiConfigurationError,
+    GeminiEmbeddingModel,
     KnowledgeBaseError,
     answer_question,
     build_knowledge_base,
@@ -36,6 +37,26 @@ class TinyEmbedder:
             else:
                 vectors.append([0.0, 0.0, -1.0])
         return np.asarray(vectors, dtype=np.float32)
+
+
+def test_gemini_embedder_configures_retrieval_task_and_dimension():
+    client = Mock()
+    client.models.embed_content.return_value.embeddings = [
+        SimpleNamespace(values=[1.0, 0.0])
+    ]
+    embedding_model = GeminiEmbeddingModel.__new__(GeminiEmbeddingModel)
+    embedding_model.model_name = "gemini-embedding-001"
+    embedding_model.client = client
+
+    vectors = embedding_model.encode_for_task(
+        ["road safety"], "RETRIEVAL_DOCUMENT"
+    )
+
+    request = client.models.embed_content.call_args.kwargs
+    assert request["model"] == "gemini-embedding-001"
+    assert request["config"].task_type == "RETRIEVAL_DOCUMENT"
+    assert request["config"].output_dimensionality == 768
+    assert vectors.shape == (1, 2)
 
 
 def write_sources(directory: Path):
@@ -141,7 +162,8 @@ def test_gemini_rate_limit_is_explained_without_leaking_details():
     assert "private diagnostic detail" not in str(exc_info.value)
 
 
-def test_missing_api_key_is_clear_when_context_exists(tmp_path: Path):
+def test_missing_api_key_is_clear_when_context_exists(tmp_path: Path, monkeypatch):
+    monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
     bundle = make_index(tmp_path)
     with pytest.raises(GeminiConfigurationError):
         answer_question(

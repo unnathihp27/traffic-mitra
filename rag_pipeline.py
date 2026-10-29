@@ -15,7 +15,6 @@ import faiss
 import numpy as np
 from google import genai
 from google.genai import types
-from sentence_transformers import SentenceTransformer
 
 from config import (
     CHUNK_OVERLAP,
@@ -71,13 +70,39 @@ class RetrievedChunk:
     score: float
 
 
-def get_embedding_model(model_name: str = EMBEDDING_MODEL_NAME) -> SentenceTransformer:
-    """Create the configured local sentence-transformer embedding model."""
-    return SentenceTransformer(model_name)
+class GeminiEmbeddingModel:
+    """Create Gemini retrieval embeddings without bundling local model weights."""
+
+    def __init__(self, model_name: str = EMBEDDING_MODEL_NAME):
+        self.model_name = model_name
+        self.client = genai.Client()
+
+    def encode_for_task(self, texts: list[str], task_type: str) -> np.ndarray:
+        result = self.client.models.embed_content(
+            model=self.model_name,
+            contents=texts,
+            config=types.EmbedContentConfig(
+                task_type=task_type,
+                output_dimensionality=768,
+            ),
+        )
+        embeddings = getattr(result, "embeddings", None) or []
+        if len(embeddings) != len(texts):
+            raise KnowledgeBaseError("Embedding service returned an invalid result count")
+        return np.asarray([embedding.values for embedding in embeddings], dtype=np.float32)
 
 
-def _encode(texts: list[str], embedding_model: Any) -> np.ndarray:
-    if hasattr(embedding_model, "encode"):
+def get_embedding_model(model_name: str = EMBEDDING_MODEL_NAME) -> GeminiEmbeddingModel:
+    """Create the configured Gemini retrieval embedding client."""
+    return GeminiEmbeddingModel(model_name)
+
+
+def _encode(
+    texts: list[str], embedding_model: Any, task_type: str
+) -> np.ndarray:
+    if hasattr(embedding_model, "encode_for_task"):
+        vectors = embedding_model.encode_for_task(texts, task_type)
+    elif hasattr(embedding_model, "encode"):
         vectors = embedding_model.encode(
             texts, convert_to_numpy=True, normalize_embeddings=True
         )
@@ -145,7 +170,11 @@ def build_knowledge_base(
         chunks = chunk_documents(documents, chunk_size, chunk_overlap)
         if not chunks:
             raise KnowledgeBaseError("No text chunks were produced from knowledge documents")
-        vectors = _encode([chunk.text for chunk in chunks], embedding_model)
+        vectors = _encode(
+            [chunk.text for chunk in chunks],
+            embedding_model,
+            "RETRIEVAL_DOCUMENT",
+        )
         index = faiss.IndexFlatIP(vectors.shape[1])
         index.add(vectors)
 
@@ -249,7 +278,9 @@ def retrieve_relevant_chunks(
         return []
     if top_k <= 0:
         raise ValueError("top_k must be greater than zero")
-    query_vector = _encode([question.strip()], embedding_model)
+    query_vector = _encode(
+        [question.strip()], embedding_model, "RETRIEVAL_QUERY"
+    )
     if query_vector.shape[1] != bundle.index.d:
         raise KnowledgeBaseError("Question embedding dimension does not match the index")
     scores, positions = bundle.index.search(query_vector, min(top_k, len(bundle.chunks)))
@@ -280,7 +311,7 @@ def generate_grounded_answer(
     if not key:
         raise GeminiConfigurationError(
             "Google Gemini is not configured. Add GOOGLE_API_KEY to your local "
-            ".env file or Streamlit secrets."
+            ".env file or the deployment environment variables."
         )
     references = []
     for number, source in enumerate(sources, start=1):

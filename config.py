@@ -14,9 +14,9 @@ METADATA_PATH = VECTOR_STORE_DIR / "traffic_safety.metadata.json"
 load_dotenv(ROOT_DIR / ".env")
 
 EMBEDDING_MODEL_NAME = os.getenv(
-    "EMBEDDING_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2"
+    "EMBEDDING_MODEL_NAME", "gemini-embedding-001"
 )
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "900"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
 TOP_K = int(os.getenv("TOP_K", "5"))

@@ -1,11 +1,11 @@
 # Traffic Mitra
 
-Traffic Mitra is an educational road-safety chatbot built with Streamlit and a
-retrieval-augmented generation (RAG) pipeline. It searches local PDF and Markdown
-documents using Sentence Transformers and FAISS, then sends retrieved excerpts to
-Google Gemini. Answers show the excerpts and their source filenames/page numbers.
-When no sufficiently relevant evidence is found, the app does not call Gemini and
-reports that the local documents are insufficient.
+Traffic Mitra is an educational road-safety chatbot with a responsive web interface
+and a FastAPI backend. It searches local PDF and Markdown documents using Gemini
+retrieval embeddings and FAISS, then sends retrieved excerpts to Google Gemini.
+Answers show the excerpts and their source filenames/page numbers. When no
+sufficiently relevant evidence is found, the app does not call Gemini and reports
+that the local documents are insufficient.
 
 The included source document is general educational material with an Indian
 road-awareness context. It is not official legal guidance, does not claim to be
@@ -14,67 +14,48 @@ requirements.
 
 ## Requirements
 
-- Python 3.11 or compatible Python 3.10+.
+- Python 3.12 for Vercel deployments; Python 3.10+ for local development.
 - A Google Gemini API key from Google AI Studio to generate answers.
-- Internet access on first use to download the embedding model and call Gemini.
-- CPU and memory sufficient for Sentence Transformers and FAISS. The embedding model
-  is downloaded once and cached by the model library.
+- Outbound internet access so the backend can call Gemini for embeddings and answers.
 
 ## Setup on Windows PowerShell
 
-From the project directory:
+From the project directory, create a virtual environment and install development
+dependencies:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 Copy-Item .env.example .env
-$runtime = "D:\Traffic_Mitra-runtime"
-New-Item -ItemType Directory -Force -Path "$runtime\pip-tmp", "$runtime\pip-cache", "$runtime\hf-cache" | Out-Null
-$env:TEMP = "$runtime\pip-tmp"
-$env:TMP = "$runtime\pip-tmp"
-$env:PIP_CACHE_DIR = "$runtime\pip-cache"
-$env:HF_HOME = "$runtime\hf-cache"
-$env:SENTENCE_TRANSFORMERS_HOME = "$runtime\hf-cache\sentence-transformers"
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-dev.txt
 ```
 
 Edit `.env` and set `GOOGLE_API_KEY` to your own key. Do not commit `.env`; it is
-ignored by Git. Never paste the key into source code or share it in chat/logs.
-Alternatively, configure `GOOGLE_API_KEY` in Streamlit secrets for hosted deployments.
-The PowerShell commands above place temporary installer files and downloaded model
-weights outside the workspace on `D:`. Choose a drive with several gigabytes free and
-update `$runtime` if the project is not on `D:`. Keep these environment variables set
-in the PowerShell session when building the index or running the application so the
-embedding model cache also stays on that drive.
+ignored by Git. Never paste the key into source code or share it in chat/logs. The
+same key is used for retrieval embeddings and answer generation.
 
 ## Build and run
 
-Build the local index:
+Start the app locally:
 
 ```powershell
-python build_knowledge_base.py
+uvicorn app:app --reload
 ```
 
-Start the app:
-
-```powershell
-streamlit run app.py
-```
-
-The app also builds the index automatically on first use and rebuilds it when source
-documents or the embedding model change. Use the sidebar's **Rebuild knowledge base**
-button or run `python build_knowledge_base.py --force` to rebuild manually. Index
-files and their chunk metadata are generated under `vector_store/` and are excluded
-from Git.
+Open `http://127.0.0.1:8000`. The API creates a Gemini-embedded FAISS index on its
+first question and caches it in the current process. The Vercel function stores that
+index in `/tmp`; it is recreated after a cold start, so source documents remain the
+durable knowledge base. The standalone `python build_knowledge_base.py` command can
+still build a local index for inspection.
 
 Optional environment settings are shown in `.env.example`. `GEMINI_MODEL` defaults to
-`gemini-2.5-flash`; change it if that model is unavailable to your account, using a
+`gemini-3.8-flash`; change it if that model is unavailable to your account, using a
 model identifier currently supported for your Google Gen AI API access.
 
 ## Tests
 
 ```powershell
-pytest -q
+python -m pytest -q
 ```
 
 Unit tests use deterministic local embedding fakes and do not call Gemini or spend
@@ -82,7 +63,7 @@ API credits. PDF creation/extraction tests use PyMuPDF.
 
 ## Add knowledge documents
 
-Place `.pdf` and/or `.md` files in `data/`, then use **Rebuild knowledge base** or:
+Place `.pdf` and/or `.md` files in `data/`, then rebuild the local index with:
 
 ```powershell
 python build_knowledge_base.py --force
@@ -103,7 +84,7 @@ share.
 
 1. `document_loader.py` reads and cleans PDF/Markdown text, preserving source and page.
 2. `rag_pipeline.py` chunks the text with overlap and embeds it using
-   `sentence-transformers/all-MiniLM-L6-v2`.
+   `gemini-embedding-001`, with separate retrieval task types for documents and queries.
 3. Normalized vectors are stored in a CPU FAISS inner-product index. A fingerprint
    detects source/model changes; metadata is stored alongside the index.
 4. Each non-empty question is embedded and searched against the local index.
@@ -119,34 +100,27 @@ knowledge corpus.
 
 ## Deployment
 
-Use a Python-compatible host that can run Streamlit and install packages from
-`requirements.txt`. Configure `GOOGLE_API_KEY` as a private environment variable or
-the host's Streamlit secret; never bake it into the image or repository. If desired,
-configure `GEMINI_MODEL` as an environment variable as well.
+The repository includes Vercel configuration and a Python 3.12 runtime pin.
 
-Some hosting providers use ephemeral filesystems, so do not depend on a previously
-generated `vector_store/` surviving a restart or new deployment. A reliable startup
-sequence installs dependencies, ensures the bundled documents are present, builds
-the index, then starts Streamlit:
+1. Import `unnathihp27/traffic-mitra` into Vercel and leave the project root at the
+   repository root.
+2. Add `GOOGLE_API_KEY` in **Project Settings → Environment Variables** for Production
+   and Preview. Optionally add `GEMINI_MODEL`, `EMBEDDING_MODEL_NAME`, `TOP_K`, and
+   `MIN_RELEVANCE_SCORE`.
+3. Deploy. The static client is served from `public/`; `/api/ask` and `/api/health`
+   are handled by the FastAPI function in `app.py`.
+4. Open the Vercel deployment URL and check `/api/health`; it should return
+   `{"status":"ok"}`. Ask a road-safety question in the chat and confirm the answer
+   includes expandable source excerpts. If the API reports a missing key, add or
+   correct `GOOGLE_API_KEY` in Vercel settings and redeploy.
 
-```powershell
-python -m pip install -r requirements.txt
-python build_knowledge_base.py
-streamlit run app.py --server.address 0.0.0.0 --server.port $env:PORT
-```
-
-On Linux-based hosts, use the equivalent shell command:
-
-```sh
-python -m pip install -r requirements.txt
-python build_knowledge_base.py
-streamlit run app.py --server.address 0.0.0.0 --server.port "${PORT:-8501}"
-```
-
-For managed services, configure these steps as the build/start command according to
-the provider's process model. Building at startup is safe: the index is reused when
-valid and rebuilt when missing or stale. Confirm that the host has enough disk,
-memory, outbound network access, and a writable local index directory.
+The committed vector index uses a different embedding model and is not reused. Each
+warm function instance builds a matching index in `/tmp` on its first question;
+Vercel's temporary filesystem is not durable, so a cold start may repeat embedding
+requests and incur Gemini usage. Larger or high-traffic deployments should move
+vectors to a managed vector database. Configure request quotas or rate limits for the
+public API to control abuse and API costs. Never commit `.env` or paste secrets into
+source code.
 
 ## Disclaimer
 
