@@ -1,0 +1,137 @@
+{
+  "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+  "fingerprint": "a61e55ea459d3bc45204942acaae25ec53fa0a78c19ede8d9e377afb6edc7c35",
+  "dimension": 384,
+  "chunks": [
+    {
+      "text": "# Traffic Safety: Practical Learning Guide\n\n> **Scope and limits:** This is original educational material for general road-safety\n> awareness, with an Indian road-use context where noted. It is not an official legal\n> publication, a complete statement of Indian law, or a substitute for current advice\n> from the relevant transport or traffic authority. Sign designs, road rules, and\n> emergency procedures can vary by location and change over time. Follow posted signs\n> and current local official guidance.\n\n## Reading signs and road markings\n\nTraffic signs communicate instructions, warnings, and useful information. A\ntriangular sign commonly warns of a hazard or changing road condition ahead, such as a\nsharp bend, a junction, a steep gradient, or a pedestrian crossing. The exact symbol\nand local sign convention matter; slow down and read the sign rather than guessing.\nCircular signs often",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "t, or a pedestrian crossing. The exact symbol\nand local sign convention matter; slow down and read the sign rather than guessing.\nCircular signs often communicate a restriction, prohibition, or requirement, while\nrectangular signs often provide directions or information. Shape is a clue, not a\nreplacement for understanding the symbol and local rules.\n\nRoad markings help organize movement and identify boundaries. A continuous centre\nline generally indicates that crossing it is restricted or unsafe under the\napplicable local rules. Broken lines may permit a manoeuvre only when it is safe and\nlawful. Stop lines identify where a vehicle should stop at a controlled intersection.\nZebra markings identify a pedestrian crossing area: approach cautiously, yield as\nrequired, and never block the crossing. Lane arrows show permitted or expected\ndirections. Markings may be faded or obscured, so use",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "tiously, yield as\nrequired, and never block the crossing. Lane arrows show permitted or expected\ndirections. Markings may be faded or obscured, so use signs, road layout, and\nconditions together.\n\n## Traffic signals and intersections\n\nAt signal-controlled junctions, obey the signal indications and any directions from\nauthorized traffic personnel. Stop before the stop line when required; do not enter an\nintersection if traffic ahead has no room to clear it. A green indication does not\nmake it safe to proceed if pedestrians or other road users are still clearing the\njunction. Watch for turning traffic, vehicles that may not stop, and people crossing.\nDo not treat an amber indication as permission to accelerate through a junction.\nSignal timing and local rules differ; use the current official rules for the place\nwhere you are driving.\n\n## Helmets and seat belts\n\nWear a properly fitted,",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "timing and local rules differ; use the current official rules for the place\nwhere you are driving.\n\n## Helmets and seat belts\n\nWear a properly fitted, securely fastened helmet designed for the type of two-wheeler\nuse. A helmet that is loose, damaged, incorrectly worn, or not fastened may not\nprovide its intended protection. Where a passenger is carried, the passenger also\nneeds appropriate protection. Replace a helmet after a significant impact and follow\nthe manufacturer's guidance.\n\nOccupants should use available seat belts on every journey, including short trips.\nThe belt should lie snugly across the pelvis and shoulder, not across the abdomen or\nneck. Children need a restraint suited to their size and installed according to its\ninstructions and applicable local requirements. Airbags supplement seat belts; they\ndo not replace them.\n\n## Pedestrian and cyclist safety\n\nDrivers should",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "ructions and applicable local requirements. Airbags supplement seat belts; they\ndo not replace them.\n\n## Pedestrian and cyclist safety\n\nDrivers should scan for pedestrians near crossings, bus stops, schools, markets, and\nparked vehicles. Slow down where visibility is limited, avoid blocking footpaths and\ncrossings, and yield when required by local rules. Take particular care around\nchildren, older people, and people with disabilities, who may need extra time to\ncross.\n\nCyclists should be given predictable space. Check mirrors and blind spots before\nturning or opening a door, and pass only when there is adequate room and visibility.\nCyclists can improve visibility with lights and reflective material in low light;\ndrivers should not assume a cyclist is easy to see. Everyone should communicate\nintentions clearly and avoid sudden movements.\n\n## Defensive driving and safe following",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "assume a cyclist is easy to see. Everyone should communicate\nintentions clearly and avoid sudden movements.\n\n## Defensive driving and safe following\n\nDefensive driving means anticipating hazards and leaving time and space to respond.\nLook well ahead, check mirrors regularly, expect that others may make mistakes, and\nkeep an escape path where practical. Reduce speed near junctions, roadside activity,\nparked vehicles, and places where people may enter the road. Avoid aggressive\nmanoeuvres and never rely on another road user's signal alone.\n\nLeave a following gap that allows a gradual stop if the vehicle ahead brakes\nsuddenly. A time-based gap is more useful than a fixed distance because stopping\nneeds increase with speed, vehicle load, and road conditions. Choose a fixed\nroadside reference: when the vehicle ahead passes it, count a consistent time before\nyour vehicle reaches it. Increase",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "road conditions. Choose a fixed\nroadside reference: when the vehicle ahead passes it, count a consistent time before\nyour vehicle reaches it. Increase the gap in rain, fog, darkness, on loose or uneven\nsurfaces, when following a large vehicle, or when carrying a load. If another vehicle\ncuts in, ease off and restore space rather than retaliating.\n\n## Speed management\n\nChoose a speed that allows you to stop within the clear distance you can see. Posted\nlimits are not a target speed in every condition. Slow down for curves, junctions,\nroad works, vulnerable road users, poor surfaces, congestion, and restricted\nvisibility. Avoid sudden acceleration and braking; smooth inputs help preserve\ncontrol. The safe speed may be lower than the posted maximum, and applicable local\nlimits and rules must always be followed.\n\n## Distraction and impairment\n\nDo not handle or look at a phone while driving.",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "aximum, and applicable local\nlimits and rules must always be followed.\n\n## Distraction and impairment\n\nDo not handle or look at a phone while driving. Set navigation and audio before\nmoving, and pull over in a safe, lawful place before attending to a device. Eating,\nreaching for objects, adjusting controls, and intense conversation can also divert\nattention. If tired, stop somewhere safe and rest rather than trying to push through.\n\nNever drive when impaired by alcohol, drugs, medication that affects alertness, or\nextreme fatigue. Arrange a sober, alert driver or another safe way to travel.\nImpairment laws and medication effects vary; do not use this guide to determine legal\nlimits or whether a particular medicine is safe for driving.\n\n## Accident-scene safety and emergency response\n\nIf you encounter a crash, first protect yourself and avoid creating another hazard.\nStop only where it",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "# Accident-scene safety and emergency response\n\nIf you encounter a crash, first protect yourself and avoid creating another hazard.\nStop only where it is safe and lawful. If you can do so without risk, make the scene\nmore visible to approaching traffic and keep bystanders away from moving vehicles.\nContact the appropriate local emergency service and provide the location, apparent\nhazards, and number of people involved. In India, emergency contact arrangements can\nvary by service and location; use the locally verified emergency number.\n\nDo not move an injured person unless there is an immediate danger such as fire or\noncoming traffic, because movement can worsen some injuries. Do not remove a\nmotorcyclist's helmet unless necessary to address an immediate life-threatening\nproblem and you are trained to do so. Follow instructions from emergency\ndispatchers. Offer assistance within your",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "dress an immediate life-threatening\nproblem and you are trained to do so. Follow instructions from emergency\ndispatchers. Offer assistance within your training, do not give food or drink to a\nseriously injured person, and do not enter a fire, fuel spill, or electrical hazard.\nPreserve access for responders and share factual information with them.\n\n## Vehicle safety checks\n\nBefore travelling, check that tyres appear properly inflated and have no obvious\ndamage, and that lights, indicators, mirrors, brakes, horn, and wipers function.\nConfirm that the windscreen and mirrors are clear, the number plate and load are\nsecure, and fuel or charge is sufficient for the planned trip. Check that required\ndocuments and safety equipment are present according to current local requirements.\nFollow the vehicle manufacturer's maintenance schedule; a visual check does not\nreplace professional servicing.",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "cording to current local requirements.\nFollow the vehicle manufacturer's maintenance schedule; a visual check does not\nreplace professional servicing. Do not drive a vehicle that appears unsafe.\n\n## Rain, fog, and low visibility\n\nIn rain, slow down, increase the following gap, use lights as appropriate, and avoid\nhard braking or abrupt steering. Standing water can conceal hazards and reduce tyre\ngrip. Do not enter floodwater when its depth or current is uncertain. If visibility\nor control becomes unsafe, move to a safe stopping place away from traffic if\npossible.\n\nIn fog or smoke, reduce speed, use lighting appropriate to the vehicle and local\nrules, and avoid high beams that reflect from particles and worsen glare. Do not\nstop in a live lane. Use lane markings only as one guide because they may be hard to\nsee. If you cannot see far enough to stop safely, leave the roadway at a safe",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "ve lane. Use lane markings only as one guide because they may be hard to\nsee. If you cannot see far enough to stop safely, leave the roadway at a safe place\nand wait for conditions to improve.\n\n## Indian road-safety awareness\n\nIndian roads may involve mixed traffic, including pedestrians, cycles, two-wheelers,\nthree-wheelers, buses, and heavy vehicles. Expect differences in speed and direction\nof movement; scan carefully and leave room. Keep intersections and pedestrian areas\nclear, use protective equipment, and be patient around public transport and roadside\nactivity. Follow instructions from authorized personnel and current signs. For\nlegal obligations, penalties, licensing, or current emergency contacts, consult\nofficial Indian and local government sources; this general guide intentionally does\nnot state specific fines or claim to reproduce current law.",
+      "source": "traffic_safety_knowledge.md",
+      "page": null
+    },
+    {
+      "text": "Traffic Safety: Practical Learning Guide\nScope and limits: This is original educational material for general road-safety\nawareness, with an Indian road-use context where noted. It is not an official legal\npublication, a complete statement of Indian law, or a substitute for current advice\nfrom the relevant transport or traffic authority. Sign designs, road rules, and\nemergency procedures can vary by location and change over time. Follow posted signs\nand current local official guidance.\nReading signs and road markings\nTraffic signs communicate instructions, warnings, and useful information. A\ntriangular sign commonly warns of a hazard or changing road condition ahead, such as a\nsharp bend, a junction, a steep gradient, or a pedestrian crossing. The exact symbol\nand local sign convention matter; slow down and read the sign rather than guessing.\nCircular signs often communicate a",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 1
+    },
+    {
+      "text": "rian crossing. The exact symbol\nand local sign convention matter; slow down and read the sign rather than guessing.\nCircular signs often communicate a restriction, prohibition, or requirement, while\nrectangular signs often provide directions or information. Shape is a clue, not a\nreplacement for understanding the symbol and local rules.\nRoad markings help organize movement and identify boundaries. A continuous centre\nline generally indicates that crossing it is restricted or unsafe under the\napplicable local rules. Broken lines may permit a manoeuvre only when it is safe and\nlawful. Stop lines identify where a vehicle should stop at a controlled intersection.\nZebra markings identify a pedestrian crossing area: approach cautiously, yield as\nrequired, and never block the crossing. Lane arrows show permitted or expected\ndirections. Markings may be faded or obscured, so use signs, road",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 1
+    },
+    {
+      "text": "ld as\nrequired, and never block the crossing. Lane arrows show permitted or expected\ndirections. Markings may be faded or obscured, so use signs, road layout, and\nconditions together.\nTraffic signals and intersections\nAt signal-controlled junctions, obey the signal indications and any directions from\nauthorized traffic personnel. Stop before the stop line when required; do not enter an\nintersection if traffic ahead has no room to clear it. A green indication does not\nmake it safe to proceed if pedestrians or other road users are still clearing the\njunction. Watch for turning traffic, vehicles that may not stop, and people crossing.\nDo not treat an amber indication as permission to accelerate through a junction.\nSignal timing and local rules differ; use the current official rules for the place\nwhere you are driving.\nHelmets and seat belts\nWear a properly fitted, securely fastened helmet",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 1
+    },
+    {
+      "text": "es differ; use the current official rules for the place\nwhere you are driving.\nHelmets and seat belts\nWear a properly fitted, securely fastened helmet designed for the type of two-wheeler\nuse. A helmet that is loose, damaged, incorrectly worn, or not fastened may not\nprovide its intended protection. Where a passenger is carried, the passenger also\nneeds appropriate protection. Replace a helmet after a significant impact and follow",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 1
+    },
+    {
+      "text": "the manufacturer's guidance.\nOccupants should use available seat belts on every journey, including short trips.\nThe belt should lie snugly across the pelvis and shoulder, not across the abdomen or\nneck. Children need a restraint suited to their size and installed according to its\ninstructions and applicable local requirements. Airbags supplement seat belts; they\ndo not replace them.\nPedestrian and cyclist safety\nDrivers should scan for pedestrians near crossings, bus stops, schools, markets, and\nparked vehicles. Slow down where visibility is limited, avoid blocking footpaths and\ncrossings, and yield when required by local rules. Take particular care around\nchildren, older people, and people with disabilities, who may need extra time to\ncross.\nCyclists should be given predictable space. Check mirrors and blind spots before\nturning or opening a door, and pass only when there is adequate",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 2
+    },
+    {
+      "text": "ross.\nCyclists should be given predictable space. Check mirrors and blind spots before\nturning or opening a door, and pass only when there is adequate room and visibility.\nCyclists can improve visibility with lights and reflective material in low light;\ndrivers should not assume a cyclist is easy to see. Everyone should communicate\nintentions clearly and avoid sudden movements.\nDefensive driving and safe following\nDefensive driving means anticipating hazards and leaving time and space to respond.\nLook well ahead, check mirrors regularly, expect that others may make mistakes, and\nkeep an escape path where practical. Reduce speed near junctions, roadside activity,\nparked vehicles, and places where people may enter the road. Avoid aggressive\nmanoeuvres and never rely on another road user's signal alone.\nLeave a following gap that allows a gradual stop if the vehicle ahead brakes\nsuddenly.",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 2
+    },
+    {
+      "text": "manoeuvres and never rely on another road user's signal alone.\nLeave a following gap that allows a gradual stop if the vehicle ahead brakes\nsuddenly. A time-based gap is more useful than a fixed distance because stopping\nneeds increase with speed, vehicle load, and road conditions. Choose a fixed\nroadside reference: when the vehicle ahead passes it, count a consistent time before\nyour vehicle reaches it. Increase the gap in rain, fog, darkness, on loose or uneven\nsurfaces, when following a large vehicle, or when carrying a load. If another vehicle\ncuts in, ease off and restore space rather than retaliating.\nSpeed management\nChoose a speed that allows you to stop within the clear distance you can see. Posted\nlimits are not a target speed in every condition. Slow down for curves, junctions,\nroad works, vulnerable road users, poor surfaces, congestion, and restricted\nvisibility. Avoid",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 2
+    },
+    {
+      "text": "ed in every condition. Slow down for curves, junctions,\nroad works, vulnerable road users, poor surfaces, congestion, and restricted\nvisibility. Avoid sudden acceleration and braking; smooth inputs help preserve\ncontrol. The safe speed may be lower than the posted maximum, and applicable local\nlimits and rules must always be followed.",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 2
+    },
+    {
+      "text": "Distraction and impairment\nDo not handle or look at a phone while driving. Set navigation and audio before\nmoving, and pull over in a safe, lawful place before attending to a device. Eating,\nreaching for objects, adjusting controls, and intense conversation can also divert\nattention. If tired, stop somewhere safe and rest rather than trying to push through.\nNever drive when impaired by alcohol, drugs, medication that affects alertness, or\nextreme fatigue. Arrange a sober, alert driver or another safe way to travel.\nImpairment laws and medication effects vary; do not use this guide to determine legal\nlimits or whether a particular medicine is safe for driving.\nAccident-scene safety and emergency response\nIf you encounter a crash, first protect yourself and avoid creating another hazard.\nStop only where it is safe and lawful. If you can do so without risk, make the scene\nmore visible to",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 3
+    },
+    {
+      "text": "otect yourself and avoid creating another hazard.\nStop only where it is safe and lawful. If you can do so without risk, make the scene\nmore visible to approaching traffic and keep bystanders away from moving vehicles.\nContact the appropriate local emergency service and provide the location, apparent\nhazards, and number of people involved. In India, emergency contact arrangements can\nvary by service and location; use the locally verified emergency number.\nDo not move an injured person unless there is an immediate danger such as fire or\noncoming traffic, because movement can worsen some injuries. Do not remove a\nmotorcyclist's helmet unless necessary to address an immediate life-threatening\nproblem and you are trained to do so. Follow instructions from emergency\ndispatchers. Offer assistance within your training, do not give food or drink to a\nseriously injured person, and do not enter a",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 3
+    },
+    {
+      "text": "uctions from emergency\ndispatchers. Offer assistance within your training, do not give food or drink to a\nseriously injured person, and do not enter a fire, fuel spill, or electrical hazard.\nPreserve access for responders and share factual information with them.\nVehicle safety checks\nBefore travelling, check that tyres appear properly inflated and have no obvious\ndamage, and that lights, indicators, mirrors, brakes, horn, and wipers function.\nConfirm that the windscreen and mirrors are clear, the number plate and load are\nsecure, and fuel or charge is sufficient for the planned trip. Check that required\ndocuments and safety equipment are present according to current local requirements.\nFollow the vehicle manufacturer's maintenance schedule; a visual check does not\nreplace professional servicing. Do not drive a vehicle that appears unsafe.\nRain, fog, and low visibility\nIn rain, slow",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 3
+    },
+    {
+      "text": "edule; a visual check does not\nreplace professional servicing. Do not drive a vehicle that appears unsafe.\nRain, fog, and low visibility\nIn rain, slow down, increase the following gap, use lights as appropriate, and avoid\nhard braking or abrupt steering. Standing water can conceal hazards and reduce tyre\ngrip. Do not enter floodwater when its depth or current is uncertain. If visibility\nor control becomes unsafe, move to a safe stopping place away from traffic if\npossible.",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 3
+    },
+    {
+      "text": "In fog or smoke, reduce speed, use lighting appropriate to the vehicle and local\nrules, and avoid high beams that reflect from particles and worsen glare. Do not\nstop in a live lane. Use lane markings only as one guide because they may be hard to\nsee. If you cannot see far enough to stop safely, leave the roadway at a safe place\nand wait for conditions to improve.\nIndian road-safety awareness\nIndian roads may involve mixed traffic, including pedestrians, cycles, two-wheelers,\nthree-wheelers, buses, and heavy vehicles. Expect differences in speed and direction\nof movement; scan carefully and leave room. Keep intersections and pedestrian areas\nclear, use protective equipment, and be patient around public transport and roadside\nactivity. Follow instructions from authorized personnel and current signs. For\nlegal obligations, penalties, licensing, or current emergency contacts, consult",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 4
+    },
+    {
+      "text": "Follow instructions from authorized personnel and current signs. For\nlegal obligations, penalties, licensing, or current emergency contacts, consult\nofficial Indian and local government sources; this general guide intentionally does\nnot state specific fines or claim to reproduce current law.",
+      "source": "traffic_safety_knowledge.pdf",
+      "page": 4
+    }
+  ]
+}

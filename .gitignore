@@ -1,0 +1,17 @@
+.env*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+.streamlit/secrets.toml
+vector_store/*
+!vector_store/.gitkeep
+data/*
+!data/traffic_safety_knowledge.md
+!data/traffic_safety_knowledge.pdf
+*.py[cod]
+*.log
+.env
+.venv/
+__pycache__/
+.pytest_cache/
