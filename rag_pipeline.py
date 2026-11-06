@@ -40,6 +40,9 @@ INSUFFICIENT_CONTEXT = (
     "documents. Please consult the relevant official traffic authority or a qualified "
     "professional for guidance."
 )
+LOCAL_INSUFFICIENT_CONTEXT = (
+    "That information is not available in the current road-safety guide."
+)
 
 
 class KnowledgeBaseError(RuntimeError):
@@ -68,6 +71,20 @@ class RetrievedChunk:
     source: str
     page: int | None
     score: float
+
+
+def format_local_answer(sources: list[RetrievedChunk]) -> str:
+    """Present retrieved evidence without generating or adding factual claims."""
+    excerpts = []
+    for source in sources:
+        text = source.text.strip()
+        if not text:
+            continue
+        page = f", page {source.page}" if source.page is not None else ""
+        excerpts.append(f"{text}\n[Source: {source.source}{page}]")
+    if not excerpts:
+        return LOCAL_INSUFFICIENT_CONTEXT
+    return "According to the current road-safety guide:\n\n" + "\n\n".join(excerpts)
 
 
 class GeminiEmbeddingModel:

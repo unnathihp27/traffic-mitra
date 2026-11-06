@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import tempfile
 from functools import lru_cache
 from pathlib import Path
@@ -13,11 +14,19 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from config import DATA_DIR, EMBEDDING_MODEL_NAME, GEMINI_MODEL, MIN_RELEVANCE_SCORE, TOP_K
+from config import (
+    DATA_DIR,
+    EMBEDDING_MODEL_NAME,
+    GEMINI_MODEL,
+    MIN_RELEVANCE_SCORE,
+    TEMPORARY_LOCAL_MODE,
+    TOP_K,
+)
 from rag_pipeline import (
     GeminiConfigurationError,
     GeminiGenerationError,
     KnowledgeBaseError,
+    format_local_answer,
     generate_grounded_answer,
     get_embedding_model,
     load_or_build_index,
@@ -29,6 +38,18 @@ logger = logging.getLogger(__name__)
 
 ROOT_DIR = Path(__file__).resolve().parent
 INDEX_DIR = Path(tempfile.gettempdir()) / "traffic-mitra"
+ROAD_SAFETY_SCOPE = re.compile(
+    r"\b(?:traffic|road|driv\w*|accident\w*|crash(?:es)?|collision\w*|helmet\w*|"
+    r"seat[\s-]?belts?|pedestrian\w*|crosswalk\w*|zebra crossing|footpath|sidewalk|"
+    r"signal\w*|signs?|speed|following distances?|tailgat\w*|two[\s-]?wheeler|"
+    r"motorcycl\w*|scooter|bicycle|cyclist|highway|intersection|lane|"
+    r"overtak\w*|brak\w*|visibility|blind spot|child restraint|child seat)\b",
+    re.IGNORECASE,
+)
+OUT_OF_SCOPE_ANSWER = (
+    "I'm Traffic Mitra, a road-safety assistant. I can only answer questions "
+    "related to traffic rules and road safety."
+)
 app = FastAPI(title="Traffic Mitra", docs_url=None, redoc_url=None)
 
 
@@ -51,7 +72,10 @@ def get_knowledge_resources() -> tuple[Any, Any]:
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "mode": "temporary_local" if TEMPORARY_LOCAL_MODE else "gemini",
+    }
 
 
 @app.post("/api/ask")
@@ -59,6 +83,8 @@ def ask_question(request: QuestionRequest) -> dict[str, Any]:
     question = request.question.strip()
     if not question:
         raise HTTPException(status_code=422, detail="Enter a question first.")
+    if not ROAD_SAFETY_SCOPE.search(question):
+        return {"answer": OUT_OF_SCOPE_ANSWER, "sources": []}
     if not os.getenv("GOOGLE_API_KEY"):
         raise HTTPException(
             status_code=503,
@@ -74,12 +100,19 @@ def ask_question(request: QuestionRequest) -> dict[str, Any]:
             top_k=TOP_K,
             min_score=MIN_RELEVANCE_SCORE,
         )
-        answer = generate_grounded_answer(
-            question,
-            sources,
-            os.getenv("GOOGLE_API_KEY"),
-            model_name=GEMINI_MODEL,
-        )
+        if TEMPORARY_LOCAL_MODE:
+            answer = format_local_answer(sources)
+        else:
+            try:
+                answer = generate_grounded_answer(
+                    question,
+                    sources,
+                    os.getenv("GOOGLE_API_KEY"),
+                    model_name=GEMINI_MODEL,
+                )
+            except GeminiGenerationError:
+                logger.warning("Gemini generation failed; using retrieved excerpts.")
+                answer = format_local_answer(sources)
     except GeminiConfigurationError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except GeminiGenerationError as exc:

@@ -32,7 +32,7 @@ python -m pip install -r requirements-dev.txt
 
 Edit `.env` and set `GOOGLE_API_KEY` to your own key. Do not commit `.env`; it is
 ignored by Git. Never paste the key into source code or share it in chat/logs. The
-same key is used for retrieval embeddings and answer generation.
+same key is used for retrieval embeddings and (when enabled) answer generation.
 
 ## Build and run
 
@@ -51,6 +51,14 @@ still build a local index for inspection.
 Optional environment settings are shown in `.env.example`. `GEMINI_MODEL` defaults to
 `gemini-3.8-flash`; change it if that model is unavailable to your account, using a
 model identifier currently supported for your Google Gen AI API access.
+
+For a temporary demo while Gemini answer generation is unavailable, set
+`TEMPORARY_LOCAL_MODE=true`. Traffic Mitra will answer from retrieved guide excerpts
+and will not call Gemini to generate an answer; if retrieval finds no relevant
+passages, it reports that the information is unavailable in the guide. Semantic
+retrieval still uses Gemini embeddings, so `GOOGLE_API_KEY` and access to the
+embedding API are required. With the setting omitted or false, Gemini generation
+remains enabled, with retrieved-excerpt fallback if generation fails.
 
 ## Tests
 
@@ -105,8 +113,9 @@ The repository includes Vercel configuration and a Python 3.12 runtime pin.
 1. Import `unnathihp27/traffic-mitra` into Vercel and leave the project root at the
    repository root.
 2. Add `GOOGLE_API_KEY` in **Project Settings → Environment Variables** for Production
-   and Preview. Optionally add `GEMINI_MODEL`, `EMBEDDING_MODEL_NAME`, `TOP_K`, and
-   `MIN_RELEVANCE_SCORE`.
+   and Preview. For temporary local-answer mode, also set
+   `TEMPORARY_LOCAL_MODE=true`. Optionally add `GEMINI_MODEL`,
+   `EMBEDDING_MODEL_NAME`, `TOP_K`, and `MIN_RELEVANCE_SCORE`.
 3. Deploy. The static client is served from `public/`; `/api/ask` and `/api/health`
    are handled by the FastAPI function in `app.py`.
 4. Open the Vercel deployment URL and check `/api/health`; it should return

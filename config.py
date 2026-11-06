@@ -17,8 +17,13 @@ EMBEDDING_MODEL_NAME = os.getenv(
     "EMBEDDING_MODEL_NAME", "gemini-embedding-001"
 )
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+TEMPORARY_LOCAL_MODE = os.getenv("TEMPORARY_LOCAL_MODE", "").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "900"))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "150"))
 TOP_K = int(os.getenv("TOP_K", "5"))
 MIN_RELEVANCE_SCORE = float(os.getenv("MIN_RELEVANCE_SCORE", "0.25"))
-

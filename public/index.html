@@ -362,7 +362,10 @@
         return response.json();
       })
       .then((health) => {
-        statusText.textContent = health.status === "ok" ? "Assistant service ready" : "Assistant service unavailable";
+        if (health.status !== "ok") throw new Error("unavailable");
+        statusText.textContent = health.mode === "temporary_local"
+          ? "Temporary local answers active"
+          : "Assistant service ready";
       })
       .catch(() => {
         statusText.textContent = "Assistant service unavailable; try again later";

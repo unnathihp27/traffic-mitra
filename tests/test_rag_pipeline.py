@@ -14,6 +14,7 @@ from rag_pipeline import (
     answer_question,
     build_knowledge_base,
     GeminiGenerationError,
+    format_local_answer,
     generate_grounded_answer,
     load_index,
     load_or_build_index,
@@ -145,6 +146,27 @@ def test_gemini_generation_uses_mocked_client_and_source_citation(tmp_path: Path
     client.models.generate_content.assert_called_once()
     request_config = client.models.generate_content.call_args.kwargs["config"]
     assert request_config.temperature is None
+
+
+def test_local_answer_uses_only_retrieved_excerpt():
+    from rag_pipeline import RetrievedChunk
+
+    sources = [RetrievedChunk("Wear a fitted helmet.", "guide.md", 2, 0.9)]
+
+    answer = format_local_answer(sources)
+
+    assert "Wear a fitted helmet." in answer
+    assert "[Source: guide.md, page 2]" in answer
+    assert "will protect" not in answer
+
+
+def test_local_answer_reports_missing_knowledge():
+    from rag_pipeline import LOCAL_INSUFFICIENT_CONTEXT, RetrievedChunk
+
+    assert format_local_answer([]) == LOCAL_INSUFFICIENT_CONTEXT
+    assert format_local_answer(
+        [RetrievedChunk("  ", "guide.md", None, 0.9)]
+    ) == LOCAL_INSUFFICIENT_CONTEXT
 
 
 def test_gemini_rate_limit_is_explained_without_leaking_details():
