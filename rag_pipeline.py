@@ -334,7 +334,6 @@ def generate_grounded_answer(
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_INSTRUCTION,
-                temperature=0.2,
             ),
         )
         answer = getattr(response, "text", None)

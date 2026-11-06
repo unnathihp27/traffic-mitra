@@ -143,6 +143,8 @@ def test_gemini_generation_uses_mocked_client_and_source_citation(tmp_path: Path
     assert "Source 1" in answer
     assert sources
     client.models.generate_content.assert_called_once()
+    request_config = client.models.generate_content.call_args.kwargs["config"]
+    assert request_config.temperature is None
 
 
 def test_gemini_rate_limit_is_explained_without_leaking_details():
